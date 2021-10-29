@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import request
 from flask import jsonify
 app = Flask(__name__)
 
@@ -11,7 +12,7 @@ def change(amount):
     # divide the amount*100 (the amount in cents) by a coin value
     # record the number of coins that evenly divide and the remainder
     coin = coins.pop()
-    num, rem  = divmod(int(amount*100), coin)
+    num, rem  = divmod(int(round(amount*100)), coin)
     # append the coin type and number of coins that had no remainder
     res.append({num:coin_lookup[coin]})
 
@@ -38,6 +39,18 @@ def changeroute(dollar, cents):
     result = change(float(amount))
     return jsonify(result)
 
+@app.route('/multiplies/<change>')
+def multipliesroute(change):
+    cal = float(change) * 100
+    result =f"This is the {change} X 100 = {cal}"
+    print(f"{result}")
+    return result
+
+@app.route('/postchange', methods=['POST'])
+def postchangeroute():
+    amount = request.json["amount"]
+    result = change(float(amount))
+    return jsonify(result)
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5000, debug=True)
