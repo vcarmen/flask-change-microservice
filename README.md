@@ -18,7 +18,7 @@ Small Flask Microservice that makes change
 
 ### Curl
 
-`curl http://127.0.0.1:8080/change/1/34`
+`curl http://127.0.0.1:5000/change/1/34`
 
 ```bash
 [
@@ -37,7 +37,7 @@ Small Flask Microservice that makes change
 
 [Installation of httpie](https://httpie.io/docs#installation)
 
-`http 127.0.0.1:8080/change/1/34`
+`http 127.0.0.1:5000/change/1/34`
 
 ```bash
 HTTP/1.0 200 OK
@@ -69,7 +69,7 @@ Server: Werkzeug/1.0.1 Python/3.9.0
 
 The [Python requests library](https://requests.readthedocs.io/en/latest/user/quickstart/) allows you to invoke a request as a "one-liner" or a script.
 
-`python -c "import requests;r=requests.get('http://127.0.0.1:8080/change/1/34');print(r.json())"`
+`python -c "import requests;r=requests.get('http://127.0.0.1:5000/change/1/34');print(r.json())"`
 
 Result:
 
@@ -84,6 +84,38 @@ Result:
 ![Screen Shot 2021-03-16 at 3 02 35 PM](https://user-images.githubusercontent.com/58792/111367176-d7328600-866a-11eb-9856-928d42e65a9a.png)
 ![Screen Shot 2021-03-16 at 3 01 22 PM](https://user-images.githubusercontent.com/58792/111367178-d7cb1c80-866a-11eb-8c29-6440a6179544.png)
 
+## Additional Enpoints
 
+### WebRoute /multiplies/<change>
+This endpoint allows multiplying a value per 100 and logging message with the format `print(f"This is the {change} X 100")`.
 
+`curl http://127.0.0.1:5000/multiplies/1.34`
 
+```bash
+This is the 1.34 X 100 = 134.0
+```
+
+### WebRoute /postchange
+This POST endpoint allows an input body in JSON format and does the change, similar to the `change` endpoint.
+Body
+
+Using postman
+``` bash
+http://127.0.0.1:5000/
+
+{"amount": "1.34"}
+```
+Result
+```bash
+[
+    {
+        "5": "quarters"
+    },
+    {
+        "1": "nickels"
+    },
+    {
+        "4": "pennies"
+    }
+]
+```
